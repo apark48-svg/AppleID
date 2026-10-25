@@ -278,6 +278,32 @@ def segment(image_bgr, blur="gaussian", max_side=800, return_method=False, refin
     return (mask, method) if return_method else mask
 
 
+def segment_color(image_bgr, return_method=False):
+    """Allyson's segmenter (allyson/detect_apple.py), same interface as segment().
+
+    Keeps pixels that are both saturated (Otsu) and inside an apple hue range,
+    then picks the largest roughly round blob. Tight on vivid apples over gray
+    or textured backgrounds; can miss deeply shaded parts of an apple.
+    Returns an empty mask if no apple-like blob is found.
+    """
+    from allyson.detect_apple import find_apple, get_apple_mask, get_color_masks, get_hsv
+
+    hsv = get_hsv(image_bgr)
+    contour, _ = find_apple(get_apple_mask(hsv, get_color_masks(hsv)))
+    mask = np.zeros(image_bgr.shape[:2], np.uint8)
+    if contour is not None:
+        cv2.drawContours(mask, [contour], -1, 255, thickness=cv2.FILLED)
+    method = "color" if contour is not None else "color-none"
+    return (mask, method) if return_method else mask
+
+
+# Each entry: segmenter with the segment() interface. Add new methods here.
+SEGMENTERS = {
+    "edge": segment,
+    "color": segment_color,
+}
+
+
 def save_overlay(image_bgr, mask, path):
     """Draw the apple outline on the image and save it (for eyeballing failures)."""
     out = image_bgr.copy()
