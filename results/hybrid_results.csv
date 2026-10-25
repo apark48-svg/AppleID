@@ -1,0 +1,13 @@
+filename,true_color,pred_color,correct,seg_method,mask_frac,share_red,share_yellow,share_green,background,lighting
+green_dark_dim_01.jpg,green,green,True,hybrid-canny,0.233,0.0,0.156,0.844,dark,dim
+green_dark_good_01.jpg,green,green,True,hybrid-color,0.187,0.0,0.004,0.996,dark,good
+green_light_dim_01.jpg,green,green,True,hybrid-color,0.289,0.0,0.0,1.0,light,dim
+green_light_good_01.jpg,green,green,True,hybrid-color,0.273,0.0,0.0,1.0,light,good
+red_dark_dim_01.jpg,red,red,True,hybrid-canny,0.114,0.974,0.023,0.003,dark,dim
+red_dark_good_01.jpg,red,red,True,hybrid-color,0.164,0.971,0.027,0.002,dark,good
+red_light_dim_01.jpg,red,red,True,hybrid-color,0.131,0.991,0.009,0.0,light,dim
+red_light_good_01.jpg,red,red,True,hybrid-color,0.131,0.974,0.026,0.0,light,good
+yellow_light_dim_01.jpg,yellow,yellow,True,hybrid-canny,0.451,0.257,0.74,0.003,light,dim
+yellow_light_good_01.jpg,yellow,yellow,True,hybrid-canny,0.527,0.161,0.811,0.029,light,good
+yellow_dark_dim_01.jpg,yellow,yellow,True,hybrid-canny,0.445,0.088,0.895,0.017,dark,dim
+yellow_dark_good_01.jpg,yellow,yellow,True,hybrid-canny,0.329,0.165,0.81,0.025,dark,good
