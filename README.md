@@ -14,13 +14,14 @@ python -m tests.smoke_test                  # synthetic apples, checks the code 
 python run_one.py data/images/<photo>.jpg   # real photo -> color, size, overlay
 python run_one.py <photo> --blur kuwahara
 python run_one.py <photo> --seg color       # Allyson's color-mask segmenter
+python run_one.py <photo> --seg hybrid      # runs both, keeps the more apple-shaped mask
 python evaluate.py                          # all segmenters on data/labels.csv -> results/
 ```
 
 ## Pipeline (agreed interfaces)
 | Step | File | Function | Returns |
 |---|---|---|---|
-| Find apple | `src/segment.py` | `segment(image_bgr)` (edge) or `segment_color(image_bgr)` (color, from `allyson/detect_apple.py`) | mask (255 = apple) |
+| Find apple | `src/segment.py` | `segment(image_bgr)` (edge), `segment_color(image_bgr)` (color, from `allyson/detect_apple.py`), or `segment_hybrid(image_bgr)` (best ellipse fit of the two) | mask (255 = apple) |
 | Name color | `src/color.py` | `classify_color(image_bgr, mask)` | `(label, shares)` |
 | Size | `src/size.py` | `apple_size(mask)` | width/height/aspect in px (fitEllipse) |
 
