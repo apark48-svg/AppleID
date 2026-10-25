@@ -297,10 +297,45 @@ def segment_color(image_bgr, return_method=False):
     return (mask, method) if return_method else mask
 
 
+def ellipse_fit(mask):
+    """IoU between the mask and the ellipse fitted to its largest contour.
+
+    An apple is close to an ellipse, so a low score means the mask is the
+    wrong shape: background leaked in, or part of the apple is missing.
+    """
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    if not contours:
+        return 0.0
+    cnt = max(contours, key=cv2.contourArea)
+    if len(cnt) < 5:  # fitEllipse needs at least 5 points
+        return 0.0
+    ell = np.zeros_like(mask)
+    cv2.ellipse(ell, cv2.fitEllipse(cnt), 255, thickness=cv2.FILLED)
+    a, b = mask > 0, ell > 0
+    return float((a & b).sum()) / max(int((a | b).sum()), 1)
+
+
+def segment_hybrid(image_bgr, return_method=False):
+    """Run both segmenters and keep the more apple-shaped mask.
+
+    The edge mask fails by leaking onto textured backgrounds; the color mask
+    fails by dropping deeply shaded parts of the apple. Both failures lower
+    the ellipse fit. On a tie the edge mask wins.
+    """
+    edge, edge_method = segment(image_bgr, return_method=True)
+    color, color_method = segment_color(image_bgr, return_method=True)
+    if color_method != "color-none" and ellipse_fit(color) > ellipse_fit(edge):
+        mask, method = color, "hybrid-color"
+    else:
+        mask, method = edge, f"hybrid-{edge_method}"
+    return (mask, method) if return_method else mask
+
+
 # Each entry: segmenter with the segment() interface. Add new methods here.
 SEGMENTERS = {
     "edge": segment,
     "color": segment_color,
+    "hybrid": segment_hybrid,
 }
 
 
