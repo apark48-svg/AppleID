@@ -103,10 +103,14 @@ def classify_color(contour, color_masks):
         return None, counts
 
     best = max(counts, key=counts.get)
+
     pcts = {}
     for color in counts:
         pcts[color] = round(100 * counts[color] / total, 1)
-    return best, pcts
+
+    # Require at least 55% of classified pixels to match one color for more confident color estimate
+    if pcts[best] < 55:
+        return "unknown", pcts
 
 
 def draw_result(img, contour, ellipse, color):
