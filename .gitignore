@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+results/overlays/*
+!results/overlays/.gitkeep
+tests/_synthetic/

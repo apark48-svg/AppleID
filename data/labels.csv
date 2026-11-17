@@ -1,0 +1,13 @@
+filename,true_color,background,lighting,source,owner,notes
+green_dark_dim_01.jpg,green,dark,dim,self,poorvajha,
+green_dark_good_01.jpg,green,dark,good,self,poorvajha,looks yellow-green; verify true_color
+green_light_dim_01.jpg,green,light,dim,self,poorvajha,
+green_light_good_01.jpg,green,light,good,self,poorvajha,
+red_dark_dim_01.jpg,red,dark,dim,self,allyson,
+red_dark_good_01.jpg,red,dark,good,self,allyson,
+red_light_dim_01.jpg,red,light,dim,self,allyson,
+red_light_good_01.jpg,red,light,good,self,allyson,
+yellow_light_dim_01.jpg,yellow,light,dim,self,nabeeha,two-tone yellow with red streaks
+yellow_light_good_01.jpg,yellow,light,good,self,nabeeha,two-tone yellow with red streaks
+yellow_dark_dim_01.jpg,yellow,dark,dim,self,nabeeha,two-tone yellow with red streaks
+yellow_dark_good_01.jpg,yellow,dark,good,self,nabeeha,two-tone yellow with red streaks
