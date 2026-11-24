@@ -103,6 +103,15 @@ def classify_shape(contour):
     x, y, w, h = cv2.boundingRect(contour)
     aspect_ratio = h / w
 
+    # categorize proportion based on height and width
+    # proportion can be: 1. wide 2. tall 3. equal
+    if aspect_ratio < 0.9:
+        proportion = "wide"
+    elif aspect_ratio > 1.1:
+        proportion = "tall"
+    else:
+        proportion = "equal"
+
     # solidity: how much of the convex hull the apple fills
     hull = cv2.convexHull(contour)
     hull_area = cv2.contourArea(hull)
@@ -118,29 +127,30 @@ def classify_shape(contour):
     combined = np.logical_or(mask > 0, flipped > 0).sum()
     symmetry_score = overlap / combined if combined > 0 else 0
 
-    # categorize shape based on circularity and aspect ratio
-    if 0.9 <= aspect_ratio <= 1.1 and circularity >= 0.85:
-        shape = "circular"
-    elif aspect_ratio < 0.85:
-        shape = "ovalish_wide"
-    elif aspect_ratio > 1.15:
-        shape = "ovalish_tall"
-    else:
-        shape = "roundish"
-
+    # symmetry can be: 1. symmetrical 2. asymmetrical
     if symmetry_score >= 0.85:
         symmetry = "symmetrical"
     else:
         symmetry = "asymmetrical"
 
     return {
-        "shape": shape,
+        "proportion": proportion,
         "symmetry": symmetry,
         "circularity": round(float(circularity), 3),
         "aspect_ratio": round(float(aspect_ratio), 3),
         "symmetry_score": round(float(symmetry_score), 3),
         "solidity": round(float(solidity), 3)
     }
+
+# example output for classify_shape
+# {
+#     "proportion": "wide",
+#     "symmetry": "symmetrical",
+#     "circularity": 0.81,
+#     "aspect_ratio": 0.87,
+#     "symmetry_score": 0.94,
+#     "solidity": 0.96
+# }
 
 def classify_color(contour, color_masks):
     apple = np.zeros(color_masks["red"].shape, dtype=np.uint8)
