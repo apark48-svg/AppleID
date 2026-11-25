@@ -89,6 +89,68 @@ def find_apple(mask, min_frac=0.01, max_ratio=1.5):
 
     return best, best_ellipse
 
+def classify_shape(contour):
+    area = cv2.contourArea(contour)
+    perimeter = cv2.arcLength(contour, True)
+
+    if area == 0 or perimeter == 0:
+        return None
+
+    # circularity: 1 is a perfect circle
+    circularity = 4 * np.pi * area / (perimeter ** 2)
+
+    # aspect ratio: < 1 is wider, > 1 is taller
+    x, y, w, h = cv2.boundingRect(contour)
+    aspect_ratio = h / w
+
+    # categorize proportion based on height and width
+    # proportion can be: 1. wide 2. tall 3. equal
+    if aspect_ratio < 0.9:
+        proportion = "wide"
+    elif aspect_ratio > 1.1:
+        proportion = "tall"
+    else:
+        proportion = "equal"
+
+    # solidity: how much of the convex hull the apple fills
+    hull = cv2.convexHull(contour)
+    hull_area = cv2.contourArea(hull)
+    solidity = area / hull_area if hull_area > 0 else 0
+
+    # symmetry: compare the apple mask with its flipped version
+    mask = np.zeros((h, w), dtype=np.uint8)
+    shifted = contour - np.array([[[x, y]]])
+    cv2.drawContours(mask, [shifted], -1, 255, -1)
+
+    flipped = cv2.flip(mask, 1)
+    overlap = np.logical_and(mask > 0, flipped > 0).sum()
+    combined = np.logical_or(mask > 0, flipped > 0).sum()
+    symmetry_score = overlap / combined if combined > 0 else 0
+
+    # symmetry can be: 1. symmetrical 2. asymmetrical
+    if symmetry_score >= 0.85:
+        symmetry = "symmetrical"
+    else:
+        symmetry = "asymmetrical"
+
+    return {
+        "proportion": proportion,
+        "symmetry": symmetry,
+        "circularity": round(float(circularity), 3),
+        "aspect_ratio": round(float(aspect_ratio), 3),
+        "symmetry_score": round(float(symmetry_score), 3),
+        "solidity": round(float(solidity), 3)
+    }
+
+# example output for classify_shape
+# {
+#     "proportion": "wide",
+#     "symmetry": "symmetrical",
+#     "circularity": 0.81,
+#     "aspect_ratio": 0.87,
+#     "symmetry_score": 0.94,
+#     "solidity": 0.96
+# }
 
 def classify_color(contour, color_masks):
     apple = np.zeros(color_masks["red"].shape, dtype=np.uint8)
@@ -111,6 +173,7 @@ def classify_color(contour, color_masks):
     # Require at least 55% of classified pixels to match one color for more confident color estimate
     if pcts[best] < 55:
         return "unknown", pcts
+    return best, pcts
 
 
 def draw_result(img, contour, ellipse, color):
@@ -133,6 +196,9 @@ def detect_apple(img):
     contour, ellipse = find_apple(mask)
     if contour is None:
         return None, None, img.copy()
+
+    shape_info = classify_shape(contour)
+    print("shape information:", shape_info)
 
     color, pcts = classify_color(contour, color_masks)
     if color is None:
