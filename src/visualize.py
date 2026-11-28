@@ -1,10 +1,4 @@
-"""Draw the pipeline's answer on the photo.
-
-    annotate(image_bgr, mask, label, shares, size) -> image
-
-Draws the apple outline, a bounding box, the center point, and a text banner
-with the color label and shares (e.g. "RED  r97 y3 g0").
-"""
+"""Draw the outline, box, center and color label on the photo."""
 import cv2
 
 

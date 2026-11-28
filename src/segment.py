@@ -1,36 +1,25 @@
-"""Step 3: find the apple.
+"""Find the apple.
 
-Public interface (agreed with the team):
-    segment(image_bgr) -> mask   # uint8, 255 = apple, 0 = background
+    segment(image_bgr) -> mask (255 = apple)
 
-Pipeline: blur -> Canny -> close gaps -> largest contour -> convex hull -> mask.
-If that gives an implausible result, fall back to GrabCut.
-
-To try a different blur (e.g. Kuwahara), pass blur="kuwahara" or add a new
-entry to BLURS below. Nothing else needs to change.
+Edge method: blur -> Canny -> close gaps -> convex hull, with GrabCut as a
+fallback. Also segment_color (Allyson's method), segment_hybrid and
+segment_refined.
 """
 import cv2
 import numpy as np
 
-# Plausible apple size as a fraction of the image area. Outside this range the
-# edge-based result is treated as a failure and GrabCut is used instead.
+# plausible apple size as a fraction of the image
 MIN_AREA_FRAC = 0.02
 MAX_AREA_FRAC = 0.90
 
 
-# ---------------------------------------------------------------- blurs ----
 def blur_gaussian(gray, ksize=7):
     return cv2.GaussianBlur(gray, (ksize, ksize), 0)
 
 
 def blur_kuwahara(bgr, radius=4):
-    """Kuwahara filter: smooths regions but keeps edges sharp.
-
-    For each pixel, look at four overlapping (radius+1)x(radius+1) quadrants
-    around it and output the mean of the quadrant with the lowest variance.
-    Simple numpy version; slow on full-size photos, so segment() downscales
-    first.
-    """
+    """Kuwahara filter: smooths regions but keeps edges sharp."""
     img = bgr.astype(np.float32)
     gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY).astype(np.float32)
     k = radius + 1
@@ -42,8 +31,7 @@ def blur_kuwahara(bgr, radius=4):
     mean = box(gray)
     var = box(gray * gray) - mean * mean
 
-    # box() is centered on each pixel; shift it so each pixel sees the four
-    # quadrants that have the pixel at a corner.
+    # shift the box means so each pixel sees its four corner quadrants
     r = radius // 2 + (radius % 2)
     offs = [(r, r), (r, -r), (-r, r), (-r, -r)]
 
@@ -61,19 +49,17 @@ def blur_kuwahara(bgr, radius=4):
     return np.clip(out, 0, 255).astype(np.uint8)
 
 
-# Each entry: BGR image -> blurred grayscale image used for edge detection.
 BLURS = {
     "gaussian": lambda bgr: blur_gaussian(cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)),
     "kuwahara": lambda bgr: cv2.cvtColor(blur_kuwahara(bgr), cv2.COLOR_BGR2GRAY),
 }
 
 
-# ------------------------------------------------------------ helpers ------
 def _auto_canny(gray, sigma=0.33):
     med = float(np.median(gray))
     lo = int(max(0, (1.0 - sigma) * med))
     hi = int(min(255, (1.0 + sigma) * med))
-    # Dark images give a tiny median; keep thresholds from collapsing to ~0.
+    # keep thresholds usable on dark images
     hi = max(hi, 40)
     lo = max(min(lo, hi // 2), 10)
     return cv2.Canny(gray, lo, hi)
@@ -83,8 +69,7 @@ def _largest_hull_mask(edges, shape):
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
     closed = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel, iterations=2)
     contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    # An apple sits inside the frame. Contours that touch the image border are
-    # usually background (countertop edge, table edge, cloth), so skip them.
+    # skip contours touching the border (table or cloth edges)
     h, w = shape[:2]
     m = 3
     inside = []
@@ -94,9 +79,7 @@ def _largest_hull_mask(edges, shape):
             inside.append(c)
     if not inside:
         return None
-    # Rank by edge length, not enclosed area: an apple edge that Canny finds
-    # only partly (e.g. the lower half fading into a white cloth) is an open
-    # arc with almost no area but a long length.
+    # rank by length, since a partly found apple edge is an open arc with little area
     arc = lambda c: cv2.arcLength(c, False)
     main = max(inside, key=arc)
     mx, my, mw, mh = cv2.boundingRect(main)
@@ -109,7 +92,7 @@ def _largest_hull_mask(edges, shape):
         near = (x < mx + mw + gap and x + cw > mx - gap and
                 y < my + mh + gap and y + ch > my - gap)
         if near:
-            parts.append(c)  # other long edge pieces next to the main one
+            parts.append(c)
     hull = cv2.convexHull(np.vstack(parts))
     mask = np.zeros(shape[:2], np.uint8)
     cv2.drawContours(mask, [hull], -1, 255, thickness=cv2.FILLED)
@@ -120,9 +103,7 @@ def _grabcut_mask(bgr, iters=5):
     """Backup segmentation: GrabCut seeded with a central rectangle."""
     h, w = bgr.shape[:2]
     rect = (int(w * 0.1), int(h * 0.1), int(w * 0.8), int(h * 0.8))
-    # GrabCut uses random numbers internally. Without a fixed seed the result
-    # for one image depends on which images were processed before it, which
-    # makes results differ between scripts and between teammates' machines.
+    # fixed seed so results are the same on every run
     cv2.setRNGSeed(0)
     gc = np.zeros((h, w), np.uint8)
     bgd = np.zeros((1, 65), np.float64)
@@ -140,13 +121,7 @@ def _grabcut_mask(bgr, iters=5):
 
 def _refine_by_saturation(bgr, mask, neutral_sat=40, min_neutral_frac=0.10,
                           min_keep_frac=0.4):
-    """Trim near-gray background (white cloth, gray counter) leaked into the mask.
-
-    Only pixels that are essentially colorless (saturation < neutral_sat) are
-    removed, so paler or shaded parts of the apple itself are never cut. The
-    trim only runs when at least min_neutral_frac of the mask is colorless,
-    which is what a leak looks like; a normal apple mask is returned unchanged.
-    """
+    """Trim gray background (white cloth, counter) that leaked into the mask."""
     if mask is None:
         return mask
     inside = mask > 0
@@ -174,9 +149,7 @@ def _refine_by_saturation(bgr, mask, neutral_sat=40, min_neutral_frac=0.10,
 
 
 def _saturation_hull_mask(bgr):
-    """Colorful-region outline: Otsu on saturation, largest blob, convex hull.
-    Helps where an apple's edge fades into a pale background or shadow but the
-    apple is still clearly more colorful than its surroundings."""
+    """Convex hull of the most saturated blob (Otsu on saturation)."""
     sat = cv2.GaussianBlur(cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)[:, :, 1], (7, 7), 0)
     _, fg = cv2.threshold(sat, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
@@ -214,12 +187,7 @@ def _complete_with_saturation(bgr, mask, min_iou=0.6):
 
 
 def _plausible(mask):
-    """Reject masks that are large enough by area but only capture an edge arc.
-
-    Area alone is not sufficient: a thickened Canny arc along the bottom of an
-    apple can occupy >2% of the image and incorrectly pass the old check.
-    Apples should have a reasonably two-dimensional bounding box.
-    """
+    """Reject masks that are too small, too large or a thin arc instead of an apple."""
     if mask is None:
         return False
     frac = float(np.count_nonzero(mask)) / mask.size
@@ -231,8 +199,6 @@ def _plausible(mask):
         return False
     x, y, bw, bh = cv2.boundingRect(max(contours, key=cv2.contourArea))
     h, w = mask.shape[:2]
-    # Reject thin strips/arcs and tiny detections. These limits are relative to
-    # the image, so they work across different input resolutions.
     if bw < 0.15 * w or bh < 0.15 * h:
         return False
     bbox_aspect = bw / max(bh, 1)
@@ -241,16 +207,10 @@ def _plausible(mask):
     return True
 
 
-# --------------------------------------------------------------- public ----
 def segment(image_bgr, blur="gaussian", max_side=800, return_method=False, refine=True):
-    """Return a binary mask (255 = apple) the same size as image_bgr.
+    """Return a mask (255 = apple) the same size as image_bgr.
 
-    max_side: image is downscaled for speed, then the mask is resized back.
-              Set to None to disable.
-    return_method: if True, return (mask, "canny" | "grabcut") so you can see
-                   how often the backup was needed.
-    refine: if True, trim neutral (low-saturation) background that leaked into
-            the mask. Set False to compare with the plain result.
+    return_method=True also returns "canny" or "grabcut".
     """
     h0, w0 = image_bgr.shape[:2]
     work = image_bgr
@@ -269,8 +229,6 @@ def segment(image_bgr, blur="gaussian", max_side=800, return_method=False, refin
     if refine:
         original_mask = mask.copy()
         refined = _refine_by_saturation(work, mask)
-        # Saturation trimming can occasionally leave only a thin colored strip.
-        # Keep it only if it still looks like a whole fruit mask.
         mask = refined if _plausible(refined) else original_mask
 
     if mask.shape[:2] != (h0, w0):
@@ -279,13 +237,7 @@ def segment(image_bgr, blur="gaussian", max_side=800, return_method=False, refin
 
 
 def segment_color(image_bgr, return_method=False):
-    """Allyson's segmenter (allyson/detect_apple.py), same interface as segment().
-
-    Keeps pixels that are both saturated (Otsu) and inside an apple hue range,
-    then picks the largest roughly round blob. Tight on vivid apples over gray
-    or textured backgrounds; can miss deeply shaded parts of an apple.
-    Returns an empty mask if no apple-like blob is found.
-    """
+    """Allyson's color-mask segmenter (allyson/detect_apple.py), same interface as segment()."""
     from allyson.detect_apple import find_apple, get_apple_mask, get_color_masks, get_hsv
 
     hsv = get_hsv(image_bgr)
@@ -298,11 +250,7 @@ def segment_color(image_bgr, return_method=False):
 
 
 def ellipse_fit(mask):
-    """IoU between the mask and the ellipse fitted to its largest contour.
-
-    An apple is close to an ellipse, so a low score means the mask is the
-    wrong shape: background leaked in, or part of the apple is missing.
-    """
+    """IoU between the mask and the ellipse fitted to it (low = not apple-shaped)."""
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     if not contours:
         return 0.0
@@ -316,26 +264,76 @@ def ellipse_fit(mask):
 
 
 def segment_hybrid(image_bgr, return_method=False):
-    """Run both segmenters and keep the more apple-shaped mask.
-
-    The edge mask fails by leaking onto textured backgrounds; the color mask
-    fails by dropping deeply shaded parts of the apple. Both failures lower
-    the ellipse fit. On a tie the edge mask wins.
-    """
+    """Run the edge and color segmenters and keep the more apple-shaped mask."""
     edge, edge_method = segment(image_bgr, return_method=True)
     color, color_method = segment_color(image_bgr, return_method=True)
-    if color_method != "color-none" and ellipse_fit(color) > ellipse_fit(edge):
+    if (color_method != "color-none" and _plausible(color)
+            and ellipse_fit(color) > ellipse_fit(edge)):
         mask, method = color, "hybrid-color"
     else:
         mask, method = edge, f"hybrid-{edge_method}"
     return (mask, method) if return_method else mask
 
 
-# Each entry: segmenter with the segment() interface. Add new methods here.
+def _fill_holes(mask):
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    out = np.zeros_like(mask)
+    if contours:
+        cv2.drawContours(out, [max(contours, key=cv2.contourArea)], -1, 255, thickness=cv2.FILLED)
+    return out
+
+
+def refine_grabcut(image_bgr, mask, max_side=400, iters=5, grow=0.15, min_frac=0.04):
+    """Use a rough mask as the starting guess for GrabCut to fix leaks and missing parts."""
+    h0, w0 = image_bgr.shape[:2]
+    s = min(1.0, max_side / max(h0, w0))
+    img = cv2.resize(image_bgr, (int(w0 * s), int(h0 * s)), interpolation=cv2.INTER_AREA) if s < 1 else image_bgr
+    m = cv2.resize(mask, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_NEAREST) > 0
+    h, w = img.shape[:2]
+
+    gc = np.full((h, w), cv2.GC_BGD, np.uint8)
+    if m.mean() < min_frac:
+        x0, y0, x1, y1 = int(w * 0.1), int(h * 0.1), int(w * 0.9), int(h * 0.9)
+        gc[y0:y1, x0:x1] = cv2.GC_PR_FGD
+    else:
+        ys, xs = np.nonzero(m)
+        dy, dx = int((ys.max() - ys.min()) * grow), int((xs.max() - xs.min()) * grow)
+        y0, y1 = max(0, ys.min() - dy), min(h, ys.max() + dy + 1)
+        x0, x1 = max(0, xs.min() - dx), min(w, xs.max() + dx + 1)
+        gc[y0:y1, x0:x1] = cv2.GC_PR_BGD
+        k = max(3, int(0.05 * min(h, w))) | 1
+        core = cv2.erode(m.astype(np.uint8), np.ones((k, k), np.uint8)) > 0
+        gc[m] = cv2.GC_PR_FGD
+        gc[core] = cv2.GC_PR_FGD
+    if not (gc == cv2.GC_BGD).any() and not (gc == cv2.GC_PR_BGD).any():
+        return mask
+
+    cv2.setRNGSeed(0)
+    bgd, fgd = np.zeros((1, 65), np.float64), np.zeros((1, 65), np.float64)
+    try:
+        cv2.grabCut(img, gc, None, bgd, fgd, iters, cv2.GC_INIT_WITH_MASK)
+    except cv2.error:
+        return mask
+    out = np.where((gc == cv2.GC_FGD) | (gc == cv2.GC_PR_FGD), 255, 0).astype(np.uint8)
+    out = cv2.morphologyEx(out, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
+    out = _fill_holes(out)
+    if np.count_nonzero(out) < 0.01 * out.size:
+        return mask
+    return cv2.resize(out, (w0, h0), interpolation=cv2.INTER_NEAREST)
+
+
+def segment_refined(image_bgr, return_method=False):
+    """segment_hybrid, then GrabCut refinement (refine_grabcut)."""
+    mask, method = segment_hybrid(image_bgr, return_method=True)
+    mask = refine_grabcut(image_bgr, mask)
+    return (mask, f"{method}+refined") if return_method else mask
+
+
 SEGMENTERS = {
     "edge": segment,
     "color": segment_color,
     "hybrid": segment_hybrid,
+    "refined": segment_refined,
 }
 
 

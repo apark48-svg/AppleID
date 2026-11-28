@@ -1,0 +1,16 @@
+repeat,fold,picked,n_test,correct
+0,0,"logreg C=0.1, color+shape+texture",20,12
+0,1,"random forest, + Lab + hue/sat",20,19
+0,2,"logreg C=0.1, color+shape+texture",20,15
+0,3,"logreg C=0.1, color+shape+texture",19,15
+0,4,"logreg C=1, color+shape+texture",19,18
+1,0,"logreg C=0.1, color+shape+texture",21,14
+1,1,"logreg C=1, color+shape+texture",20,16
+1,2,"logreg C=1, color+shape+texture",20,14
+1,3,"logreg C=0.1, color+shape+texture",18,17
+1,4,"logreg C=0.1, + Lab + hue/sat",19,12
+2,0,"random forest, + Lab + hue/sat",21,17
+2,1,"logreg C=0.1, color+shape+texture",20,15
+2,2,"logreg C=0.1, color+shape+texture",20,16
+2,3,"logreg C=0.1, + Lab + hue/sat",18,16
+2,4,"SVM C=1, color+shape+texture",19,12

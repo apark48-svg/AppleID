@@ -1,0 +1,13 @@
+filename,true_color,pred_color,correct,seg_method,mask_frac,share_red,share_yellow,share_green,background,lighting
+green_dark_dim_01.jpg,green,green,True,hybrid-canny+refined,0.215,0.0,0.156,0.844,dark,dim
+green_dark_good_01.jpg,green,green,True,hybrid-color+refined,0.182,0.0,0.002,0.998,dark,good
+green_light_dim_01.jpg,green,green,True,hybrid-color+refined,0.298,0.0,0.0,1.0,light,dim
+green_light_good_01.jpg,green,green,True,hybrid-color+refined,0.281,0.0,0.0,1.0,light,good
+red_dark_dim_01.jpg,red,red,True,hybrid-canny+refined,0.113,0.975,0.022,0.003,dark,dim
+red_dark_good_01.jpg,red,red,True,hybrid-color+refined,0.168,0.965,0.033,0.003,dark,good
+red_light_dim_01.jpg,red,red,True,hybrid-color+refined,0.142,0.967,0.033,0.0,light,dim
+red_light_good_01.jpg,red,red,True,hybrid-color+refined,0.142,0.969,0.03,0.0,light,good
+yellow_light_dim_01.jpg,yellow,yellow,True,hybrid-canny+refined,0.442,0.253,0.744,0.003,light,dim
+yellow_light_good_01.jpg,yellow,yellow,True,hybrid-canny+refined,0.519,0.163,0.809,0.028,light,good
+yellow_dark_dim_01.jpg,yellow,yellow,True,hybrid-canny+refined,0.46,0.088,0.895,0.017,dark,dim
+yellow_dark_good_01.jpg,yellow,yellow,True,hybrid-canny+refined,0.325,0.162,0.814,0.025,dark,good

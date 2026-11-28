@@ -1,8 +1,6 @@
-"""Print hue statistics for every labeled image, to tune the hue ranges.
+"""Print hue statistics for every labeled photo, to help tune the hue ranges.
 
-Save this in the appleid/ folder (next to run_one.py) and run:
     python hue_stats.py
-Paste the printed table back into the chat.
 """
 import cv2
 import numpy as np
