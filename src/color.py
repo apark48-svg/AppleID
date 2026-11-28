@@ -1,13 +1,6 @@
-"""Step 4: name the apple's color with HSV hue-range masking.
+"""Name the apple's color (red / yellow / green) from HSV hue ranges.
 
-Public interface (agreed with the team):
     classify_color(image_bgr, mask) -> (label, shares)
-    label  : "red" | "green" | "yellow" | "unknown"
-    shares : {"red": 0.12, "green": 0.80, "yellow": 0.08}  (sums to ~1 over
-             the pixels that fell in any range)
-
-OpenCV hue runs 0-179 (not 0-359). Red wraps around, so it needs two ranges.
-All thresholds live in CONFIG so you can tune them without touching the logic.
 """
 import cv2
 import numpy as np
@@ -21,11 +14,9 @@ CONFIG = {
     "green": [(22, 85)],
 },
 
-    # Ignore washed-out / near-black pixels: their hue is unreliable
-    # (specular highlights, deep shadow, gray background bleed).
+    # skip washed-out and near-black pixels, their hue is unreliable
     "min_saturation": 40,
     "min_value": 30,
-    # If fewer than this many apple pixels survive the filters, say "unknown".
     "min_valid_pixels": 50,
 }
 

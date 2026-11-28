@@ -1,11 +1,6 @@
-"""Run every segmenter on every labeled photo and compare them.
+"""Color accuracy of every segmenter on data/labels.csv.
 
-    python evaluate.py              # all segmenters in SEGMENTERS
-    python evaluate.py --seg color  # just one
-
-Writes results/<segmenter>_results.csv (one row per photo) and prints color
-accuracy per segmenter. Also saves overlays to results/overlays/<segmenter>/
-so failures can be checked by eye.
+    python evaluate.py [--seg color]
 """
 import argparse
 from pathlib import Path

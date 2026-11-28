@@ -1,5 +1,4 @@
-"""Smoke test on SYNTHETIC apples (colored ellipses). It checks that the code
-runs and that the obvious cases work. It says nothing about real-photo accuracy.
+"""Smoke test on synthetic apples: checks the code runs, not real-photo accuracy.
 
     python -m tests.smoke_test
 """

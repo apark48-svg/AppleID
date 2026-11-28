@@ -1,0 +1,99 @@
+filename,split,variety,guess,correct,reason,share_red,share_yellow,share_green,hue,brightness,spread,proportion,symmetry
+granny_smith_01.jpg,tune,granny_smith,granny_smith,True,green skin (hue 36),0.002,0.002,0.996,36.0,128.0,concentrated,equal,symmetrical
+granny_smith_02.jpg,tune,granny_smith,granny_smith,True,green skin (hue 39),0.0,0.0,1.0,39.0,147.0,concentrated,tall,asymmetrical
+granny_smith_03.jpg,tune,granny_smith,granny_smith,True,green skin (hue 33),0.0,0.008,0.992,33.0,149.0,concentrated,equal,symmetrical
+granny_smith_04.jpg,tune,granny_smith,granny_smith,True,green skin (hue 34),0.001,0.015,0.984,34.0,162.0,concentrated,equal,symmetrical
+granny_smith_05.jpg,tune,granny_smith,granny_smith,True,green skin (hue 38),0.0,0.002,0.998,38.0,117.0,concentrated,tall,symmetrical
+golden_delicious_01.jpg,tune,golden_delicious,golden_delicious,True,yellow skin (hue 21),0.005,0.551,0.445,21.0,213.0,not concentrated,wide,asymmetrical
+golden_delicious_02.jpg,tune,golden_delicious,golden_delicious,True,yellow skin (hue 21),0.007,0.743,0.25,21.0,187.0,not concentrated,equal,symmetrical
+golden_delicious_03.jpg,tune,golden_delicious,golden_delicious,True,yellow skin (hue 24),0.001,0.272,0.727,24.0,182.0,concentrated,wide,symmetrical
+golden_delicious_04.jpg,tune,golden_delicious,golden_delicious,True,yellow skin (hue 24),0.003,0.033,0.964,24.0,161.0,not concentrated,equal,symmetrical
+golden_delicious_05.jpg,tune,golden_delicious,golden_delicious,True,yellow skin (hue 26),0.005,0.008,0.987,26.0,194.0,not concentrated,equal,asymmetrical
+red_delicious_01.jpg,tune,red_delicious,red_delicious,True,"solid dark red (99% red, brightness 78)",0.986,0.014,0.0,3.0,78.0,concentrated,equal,symmetrical
+red_delicious_02.jpg,tune,red_delicious,red_delicious,True,"solid dark red (99% red, brightness 93)",0.993,0.003,0.004,-5.0,93.0,concentrated,tall,symmetrical
+red_delicious_03.jpg,tune,red_delicious,red_delicious,True,"solid dark red (100% red, brightness 116)",0.999,0.001,0.0,-4.0,116.0,concentrated,tall,asymmetrical
+red_delicious_04.jpg,tune,red_delicious,red_delicious,True,"solid dark red (99% red, brightness 78)",0.991,0.009,0.0,0.0,78.0,concentrated,tall,symmetrical
+red_delicious_05.jpg,tune,red_delicious,red_delicious,True,"solid dark red (100% red, brightness 149)",0.996,0.004,0.0,-2.0,149.0,concentrated,tall,symmetrical
+honeycrisp_01.jpg,tune,honeycrisp,honeycrisp,True,red blush on a yellow base (48% yellow/green),0.523,0.14,0.337,12.0,154.0,not concentrated,equal,symmetrical
+honeycrisp_02.jpg,tune,honeycrisp,gala,False,mostly red with some yellow (92% red),0.918,0.04,0.041,0.0,159.0,concentrated,equal,symmetrical
+honeycrisp_03.jpg,tune,honeycrisp,honeycrisp,True,red blush on a yellow base (67% yellow/green),0.333,0.178,0.489,20.0,166.0,not concentrated,wide,asymmetrical
+honeycrisp_04.jpg,tune,honeycrisp,honeycrisp,True,red blush on a yellow base (49% yellow/green),0.51,0.38,0.11,12.0,215.0,not concentrated,equal,symmetrical
+honeycrisp_05.jpg,tune,honeycrisp,golden_delicious,False,yellow skin (hue 22),0.111,0.379,0.51,22.0,247.0,not concentrated,wide,symmetrical
+gala_01.jpg,tune,gala,gala,True,mostly red with some yellow (93% red),0.926,0.073,0.001,5.0,212.0,not concentrated,equal,symmetrical
+gala_02.jpg,tune,gala,gala,True,mostly red with some yellow (82% red),0.817,0.168,0.015,4.0,165.0,not concentrated,equal,symmetrical
+gala_03.jpg,tune,gala,gala,True,mostly red with some yellow (66% red),0.657,0.216,0.126,6.0,177.0,not concentrated,equal,symmetrical
+gala_04.jpg,tune,gala,gala,True,mostly red with some yellow (56% red),0.561,0.36,0.08,11.0,169.0,concentrated,equal,symmetrical
+gala_05.jpg,tune,gala,gala,True,mostly red with some yellow (98% red),0.977,0.017,0.007,0.0,164.0,concentrated,tall,symmetrical
+granny_smith_06.jpg,test,granny_smith,granny_smith,True,green skin (hue 36),0.0,0.001,0.999,36.0,150.0,concentrated,equal,symmetrical
+granny_smith_07.jpg,test,granny_smith,granny_smith,True,green skin (hue 45),0.001,0.0,0.999,45.0,159.0,concentrated,wide,symmetrical
+granny_smith_08.jpg,test,granny_smith,granny_smith,True,green skin (hue 36),0.0,0.005,0.994,36.0,127.0,concentrated,equal,symmetrical
+golden_delicious_06.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue 22),0.031,0.458,0.511,22.0,224.0,not concentrated,tall,asymmetrical
+golden_delicious_07.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue -62),0.019,0.062,0.92,-62.0,72.0,not concentrated,wide,symmetrical
+golden_delicious_08.jpg,test,golden_delicious,granny_smith,False,green skin (hue 29),0.0,0.048,0.952,29.0,168.0,not concentrated,equal,symmetrical
+red_delicious_06.jpg,test,red_delicious,red_delicious,True,"solid dark red (92% red, brightness 99)",0.921,0.035,0.045,2.0,99.0,concentrated,tall,symmetrical
+red_delicious_07.jpg,test,red_delicious,red_delicious,True,"solid dark red (100% red, brightness 80)",1.0,0.0,0.0,-7.0,80.0,concentrated,wide,asymmetrical
+honeycrisp_06.jpg,test,honeycrisp,honeycrisp,True,red blush on a yellow base (46% yellow/green),0.539,0.461,0.0,11.0,138.0,not concentrated,wide,symmetrical
+honeycrisp_07.jpg,test,honeycrisp,red_delicious,False,"solid dark red (100% red, brightness 143)",0.998,0.002,0.0,-1.0,143.0,concentrated,equal,symmetrical
+gala_06.jpg,test,gala,gala,True,mostly red with some yellow (87% red),0.87,0.044,0.086,-1.0,140.0,concentrated,tall,asymmetrical
+gala_07.jpg,test,gala,gala,True,mostly red with some yellow (100% red),1.0,0.0,0.0,1.0,175.0,concentrated,tall,asymmetrical
+granny_smith_09.jpg,test,granny_smith,granny_smith,True,green skin (hue 36),0.0,0.0,1.0,36.0,185.0,concentrated,wide,asymmetrical
+granny_smith_10.jpg,test,granny_smith,granny_smith,True,green skin (hue 49),0.0,0.0,1.0,49.0,158.0,concentrated,equal,symmetrical
+granny_smith_11.jpg,test,granny_smith,granny_smith,True,green skin (hue 32),0.0,0.002,0.998,32.0,139.0,concentrated,wide,asymmetrical
+granny_smith_12.jpg,test,granny_smith,granny_smith,True,green skin (hue 30),0.006,0.004,0.99,30.0,114.0,concentrated,equal,asymmetrical
+red_delicious_08.jpg,test,red_delicious,red_delicious,True,"solid dark red (99% red, brightness 100)",0.995,0.005,0.0,-5.0,100.0,concentrated,tall,symmetrical
+red_delicious_09.jpg,test,red_delicious,gala,False,mostly red with some yellow (79% red),0.794,0.201,0.005,0.0,140.0,concentrated,wide,asymmetrical
+red_delicious_10.jpg,test,red_delicious,gala,False,mostly red with some yellow (100% red),1.0,0.0,0.0,-2.0,119.0,not concentrated,tall,asymmetrical
+red_delicious_11.jpg,test,red_delicious,red_delicious,True,"solid dark red (96% red, brightness 106)",0.96,0.04,0.001,0.0,106.0,concentrated,equal,asymmetrical
+red_delicious_12.jpg,test,red_delicious,red_delicious,True,"solid dark red (100% red, brightness 92)",0.999,0.001,0.0,-10.0,92.0,concentrated,tall,symmetrical
+red_delicious_13.jpg,test,red_delicious,red_delicious,True,"solid dark red (100% red, brightness 87)",0.999,0.001,0.0,-10.0,87.0,concentrated,tall,symmetrical
+honeycrisp_08.jpg,test,honeycrisp,gala,False,mostly red with some yellow (67% red),0.666,0.226,0.108,8.0,142.0,not concentrated,equal,symmetrical
+honeycrisp_09.jpg,test,honeycrisp,russet,False,"dark orange-brown skin (hue 14, brightness 118)",0.391,0.415,0.194,14.0,118.0,concentrated,tall,asymmetrical
+honeycrisp_10.jpg,test,honeycrisp,honeycrisp,True,red blush on a yellow base (46% yellow/green),0.539,0.461,0.0,11.0,138.0,not concentrated,wide,asymmetrical
+honeycrisp_11.jpg,test,honeycrisp,red_delicious,False,"solid dark red (100% red, brightness 138)",0.998,0.002,0.0,-2.0,138.0,concentrated,equal,symmetrical
+honeycrisp_12.jpg,test,honeycrisp,russet,False,"dark orange-brown skin (hue 15, brightness 47)",0.395,0.41,0.194,15.0,47.0,not concentrated,wide,symmetrical
+honeycrisp_13.jpg,test,honeycrisp,gala,False,mostly red with some yellow (63% red),0.629,0.071,0.3,1.0,229.0,not concentrated,equal,symmetrical
+honeycrisp_14.jpg,test,honeycrisp,golden_delicious,False,yellow skin (hue 25),0.048,0.2,0.753,25.0,222.0,not concentrated,wide,symmetrical
+honeycrisp_15.jpg,test,honeycrisp,golden_delicious,False,yellow skin (hue 20),0.197,0.413,0.389,20.0,161.0,not concentrated,equal,symmetrical
+honeycrisp_16.jpg,test,honeycrisp,golden_delicious,False,yellow skin (hue 17),0.208,0.462,0.329,17.0,182.0,concentrated,equal,symmetrical
+gala_08.jpg,test,gala,gala,True,mostly red with some yellow (95% red),0.955,0.036,0.009,3.0,189.0,concentrated,equal,symmetrical
+gala_09.jpg,test,gala,gala,True,mostly red with some yellow (99% red),0.989,0.009,0.001,1.0,162.0,concentrated,equal,symmetrical
+gala_10.jpg,test,gala,gala,True,mostly red with some yellow (100% red),0.998,0.002,0.0,0.0,158.0,concentrated,tall,symmetrical
+gala_11.jpg,test,gala,gala,True,mostly red with some yellow (96% red),0.96,0.031,0.009,3.0,159.0,not concentrated,tall,symmetrical
+gala_12.jpg,test,gala,granny_smith,False,green skin (hue 35),0.0,0.002,0.998,35.0,221.0,concentrated,equal,asymmetrical
+golden_delicious_09.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue 27),0.0,0.0,1.0,27.0,210.0,concentrated,equal,symmetrical
+golden_delicious_10.jpg,test,golden_delicious,granny_smith,False,green skin (hue 30),0.001,0.011,0.988,30.0,202.0,concentrated,tall,symmetrical
+golden_delicious_11.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue 26),0.0,0.001,0.999,26.0,200.0,concentrated,equal,symmetrical
+golden_delicious_12.jpg,test,golden_delicious,granny_smith,False,green skin (hue 29),0.0,0.0,1.0,29.0,206.0,concentrated,equal,symmetrical
+golden_delicious_13.jpg,test,golden_delicious,granny_smith,False,green skin (hue 30),0.0,0.004,0.995,30.0,207.0,concentrated,equal,symmetrical
+golden_delicious_14.jpg,test,golden_delicious,granny_smith,False,green skin (hue 28),0.0,0.007,0.993,28.0,221.0,concentrated,equal,symmetrical
+golden_delicious_15.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue 27),0.002,0.07,0.928,27.0,173.0,concentrated,tall,asymmetrical
+golden_delicious_16.jpg,test,golden_delicious,granny_smith,False,green skin (hue 31),0.001,0.084,0.915,31.0,175.0,concentrated,equal,symmetrical
+golden_delicious_17.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue 26),0.003,0.192,0.805,26.0,170.0,concentrated,equal,symmetrical
+golden_delicious_18.jpg,test,golden_delicious,golden_delicious,True,yellow skin (hue 25),0.0,0.002,0.998,25.0,227.0,concentrated,tall,symmetrical
+golden_delicious_19.jpg,test,golden_delicious,granny_smith,False,green skin (hue 34),0.0,0.0,1.0,34.0,241.0,concentrated,equal,symmetrical
+gala_13.jpg,test,gala,red_delicious,False,"solid dark red (97% red, brightness 101)",0.965,0.023,0.012,6.0,101.0,concentrated,tall,symmetrical
+gala_14.jpg,test,gala,honeycrisp,False,red blush on a yellow base (63% yellow/green),0.368,0.572,0.06,15.0,163.0,concentrated,tall,asymmetrical
+gala_15.jpg,test,gala,gala,True,mostly red with some yellow (57% red),0.566,0.327,0.107,10.0,222.0,concentrated,equal,symmetrical
+gala_16.jpg,test,gala,gala,True,mostly red with some yellow (75% red),0.749,0.142,0.109,6.0,180.0,not concentrated,equal,symmetrical
+gala_17.jpg,test,gala,gala,True,mostly red with some yellow (90% red),0.897,0.092,0.011,2.0,127.0,not concentrated,equal,asymmetrical
+gala_18.jpg,test,gala,gala,True,mostly red with some yellow (84% red),0.836,0.097,0.067,6.0,172.0,not concentrated,tall,symmetrical
+gala_19.jpg,test,gala,russet,False,"dark orange-brown skin (hue 9, brightness 111)",0.895,0.105,0.0,9.0,111.0,not concentrated,equal,asymmetrical
+gala_20.jpg,test,gala,gala,True,mostly red with some yellow (75% red),0.75,0.184,0.066,9.0,146.0,not concentrated,tall,asymmetrical
+russet_01.jpg,tune,russet,golden_delicious,False,yellow skin (hue 20),0.002,0.93,0.068,20.0,189.0,concentrated,equal,symmetrical
+russet_02.jpg,test,russet,golden_delicious,False,yellow skin (hue 16),0.118,0.879,0.003,16.0,161.0,concentrated,wide,symmetrical
+russet_03.jpg,tune,russet,russet,True,"dark orange-brown skin (hue 12, brightness 130)",0.517,0.483,0.0,12.0,130.0,not concentrated,wide,symmetrical
+russet_04.jpg,tune,russet,russet,True,"dark orange-brown skin (hue 13, brightness 106)",0.414,0.586,0.0,13.0,106.0,concentrated,wide,asymmetrical
+russet_05.jpg,test,russet,golden_delicious,False,yellow skin (hue 17),0.014,0.959,0.027,17.0,139.0,concentrated,equal,symmetrical
+russet_06.jpg,test,russet,golden_delicious,False,yellow skin (hue 20),0.0,0.636,0.364,20.0,160.0,not concentrated,wide,symmetrical
+russet_07.jpg,test,russet,golden_delicious,False,yellow skin (hue 24),0.0,0.151,0.849,24.0,112.0,not concentrated,equal,symmetrical
+russet_08.jpg,tune,russet,russet,True,"dark orange-brown skin (hue 13, brightness 88)",0.444,0.549,0.007,13.0,88.0,concentrated,equal,symmetrical
+russet_09.jpg,tune,russet,russet,True,"dark orange-brown skin (hue 12, brightness 105)",0.5,0.5,0.0,12.0,105.0,concentrated,equal,symmetrical
+russet_10.jpg,tune,russet,russet,True,"dark orange-brown skin (hue 16, brightness 103)",0.157,0.781,0.061,16.0,103.0,concentrated,equal,symmetrical
+russet_11.jpg,tune,russet,russet,True,"dark orange-brown skin (hue 13, brightness 102)",0.405,0.595,0.0,13.0,102.0,concentrated,equal,asymmetrical
+russet_12.jpg,test,russet,golden_delicious,False,yellow skin (hue 20),0.0,0.638,0.362,20.0,214.0,concentrated,equal,symmetrical
+russet_13.jpg,test,russet,golden_delicious,False,yellow skin (hue 22),0.0,0.429,0.571,22.0,216.0,not concentrated,equal,asymmetrical
+russet_14.jpg,test,russet,golden_delicious,False,yellow skin (hue 20),0.0,0.605,0.395,20.0,184.0,concentrated,equal,asymmetrical
+russet_15.jpg,test,russet,russet,True,"dark orange-brown skin (hue 14, brightness 104)",0.265,0.735,0.0,14.0,104.0,concentrated,equal,symmetrical
+russet_16.jpg,test,russet,russet,True,"dark orange-brown skin (hue 13, brightness 94)",0.278,0.722,0.0,13.0,94.0,concentrated,equal,symmetrical
+russet_17.jpg,test,russet,russet,True,"dark orange-brown skin (hue 20, brightness 123)",0.028,0.707,0.265,20.0,123.0,concentrated,tall,asymmetrical
+russet_18.jpg,test,russet,golden_delicious,False,yellow skin (hue 24),0.01,0.326,0.664,24.0,87.0,not concentrated,wide,asymmetrical

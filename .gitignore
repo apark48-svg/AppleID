@@ -5,3 +5,4 @@ __pycache__/
 results/overlays/*
 !results/overlays/.gitkeep
 tests/_synthetic/
+models/*.onnx

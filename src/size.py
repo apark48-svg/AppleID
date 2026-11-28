@@ -1,12 +1,6 @@
-"""Step 5: size the apple with cv2.fitEllipse().
+"""Size and position of the apple from cv2.fitEllipse (in pixels).
 
     apple_size(mask) -> dict | None
-    keys: width_px, height_px (minor / major axis), aspect (>= 1), area_px,
-          center_xy (x, y of the apple center, pixels from top-left),
-          bbox_xywh (x, y, w, h of the tight bounding box)
-
-Sizes are in pixels. To get real units later, include a reference object of
-known size in the photo and scale by (known_size / its_pixel_size).
 """
 import cv2
 
